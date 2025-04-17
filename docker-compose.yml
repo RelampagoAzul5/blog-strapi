@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: blog_strapi_api
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: blog_strapi_api
+      MYSQL_USER: change-me
+      MYSQL_PASSWORD: change-me
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  volume-copier:
+    image: alpine
+    container_name: volume-copier
+    command: sh -c "while true; do cp -r /from/* /to/; sleep 10; done"
+    volumes:
+      - mysql-data:/from
+      - /e/Database:/to
+    depends_on:
+      - mysql
+    restart: always
+
+volumes:
+  mysql-data:

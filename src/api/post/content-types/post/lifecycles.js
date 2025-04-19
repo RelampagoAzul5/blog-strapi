@@ -3,7 +3,7 @@ const axios = require('axios');
 module.exports = {
   async afterCreate(event) {
     try {
-      const webhookUrl = 'https://api.netlify.com/build_hooks/68032df711181ca094180834';
+      const webhookUrl = process.env.NETLIFY_WEB_HOOK;
 
       await axios.post(webhookUrl);
 
